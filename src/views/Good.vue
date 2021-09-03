@@ -2,41 +2,47 @@
   <el-card class="good-container">
     <template #header>
       <div class="header">
-        <el-button type="primary" size="small" icon="el-icon-plus" @click="handleAdd">新增商品</el-button>
+        <el-form size="mini" inline v-model="queryForm" style="width: 100%; font-size: 12px">
+          <el-form-item :label="`商品名称`">
+            <el-input placeholder="商品名称"  v-model="queryForm.goodsName"  clearable/>
+          </el-form-item>
+          <el-form-item :label="`上架状态`">
+            <el-select placeholder="上架状态" v-model="queryForm.goodsSellStatus" filterable clearable style="width: 120px" >
+              <el-option  label="销售中"  value="0">销售中</el-option>
+              <el-option  label="下架"  value="1">下架 </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="`标签`">
+            <el-input placeholder="标签" v-model="queryForm.tag" clearable/>
+          </el-form-item>
+          <el-button type="primary" size="small"  @click="getGoodList()">搜索</el-button>
+          <el-button type="danger" size="small"  @click="handleAdd">新增商品</el-button>
+        </el-form>
       </div>
     </template>
     <el-table
       v-loading="loading"
-      ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="width: 100%"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
+      style="width: 100%" >
+
       <el-table-column
         prop="goodsId"
-        label="商品编号"
+        label="产品编号"
       >
       </el-table-column>
       <el-table-column
         prop="goodsName"
-        label="商品名"
+        label="产品名称"
       >
       </el-table-column>
       <el-table-column
-        prop="goodsIntro"
-        label="商品简介"
-      >
-      </el-table-column>
-      <el-table-column
-        label="商品图片"
-        width="150px"
+        label="规格型号"
       >
         <template #default="scope">
-          <img style="width: 100px; height: 100px;" :key="scope.row.goodsId" :src="$filters.prefix(scope.row.goodsCoverImg)" alt="商品主图">
+          <span style="color: green">球镜：{{scope.row.sphereMin}} 至 {{scope.row.sphereMax}}</span>
+          <br/>
+          <span style="color: red">柱镜：{{scope.row.cylinderMin}} 至 {{scope.row.cylinderMax}} </span>
         </template>
       </el-table-column>
       <el-table-column
@@ -45,8 +51,18 @@
       >
       </el-table-column>
       <el-table-column
-        prop="sellingPrice"
-        label="商品售价"
+        prop="originalPrice"
+        label="标批价格"
+      >
+      </el-table-column>
+      <el-table-column
+          prop="remark"
+          label="备注"
+      >
+      </el-table-column>
+      <el-table-column
+          prop="tag"
+          label="标签"
       >
       </el-table-column>
       <el-table-column
@@ -86,70 +102,63 @@ import { onMounted, reactive, ref, toRefs } from 'vue'
 import axios from '@/utils/axios'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import router from "../router";
 export default {
   name: 'Good',
-  setup() {
-    const multipleTable = ref(null)
-    const router = useRouter()
-    const state = reactive({
+  data() {
+    return {
+      queryForm:{
+        goodsName:'',
+        goodsSellStatus:'',
+        tag:''
+      },
       loading: false,
       tableData: [], // 数据列表
-      multipleSelection: [], // 选中项
       total: 0, // 总条数
       currentPage: 1, // 当前页
       pageSize: 10 // 分页大小
-    })
-    onMounted(() => {
-      getGoodList()
-    })
-    // 获取轮播图列表
-    const getGoodList = () => {
-      state.loading = true
+    }
+  },
+  methods: {
+    getGoodList(){
+      this.loading = true
       axios.get('/goods/list', {
         params: {
-          pageNumber: state.currentPage,
-          pageSize: state.pageSize
+          pageNumber: this.currentPage,
+          pageSize: this.pageSize,
+          goodsName:this.queryForm.goodsName,
+          tag:this.queryForm.tag,
+          goodsSellStatus:this.queryForm.goodsSellStatus
         }
       }).then(res => {
-        state.tableData = res.list
-        state.total = res.totalCount
-        state.currentPage = res.currPage
-        state.loading = false
+        this.tableData = res.list
+        this.total = res.totalCount
+        this.currentPage = res.currPage
+        this.loading = false
       })
-    }
-    const handleAdd = () => {
+    },
+    handleAdd(){
       router.push({ path: '/add' })
-    }
-    const handleEdit = (id) => {
+    },
+    handleEdit(id){
       router.push({ path: '/add', query: { id } })
-    }
-    // 选择项
-    const handleSelectionChange = (val) => {
-      state.multipleSelection = val
-    }
-    const changePage = (val) => {
-      state.currentPage = val
-      getGoodList()
-    }
-    const handleStatus = (id, status) => {
+    },
+    changePage(val){
+      this.currentPage = val
+      this.getGoodList()
+    },
+    handleStatus(id, status){
       axios.put(`/goods/status/${status}`, {
         ids: id ? [id] : []
       }).then(() => {
         ElMessage.success('修改成功')
-        getGoodList()
+        this.getGoodList()
       })
     }
-    return {
-      ...toRefs(state),
-      multipleTable,
-      handleSelectionChange,
-      handleAdd,
-      handleEdit,
-      getGoodList,
-      changePage,
-      handleStatus
-    }
-  }
+  },
+  created() {
+    this.getGoodList()
+  },
 }
 </script>
 

@@ -5,17 +5,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/introduce'
-    },
-    {
-      path: '/introduce',
-      name: 'introduce',
-      component: () => import(/* webpackChunkName: "introduce" */ '../views/Introduce.vue')
-    },
-    {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import(/* webpackChunkName: "dashboard" */ '../views/Index.vue')
+      redirect: '/good'
     },
     {
       path: '/login',
@@ -26,43 +16,6 @@ const router = createRouter({
       path: '/add',
       name: 'add',
       component: () => import(/* webpackChunkName: "add" */ '../views/AddGood.vue')
-    },
-    {
-      path: '/swiper',
-      name: 'swiper',
-      component: () => import(/* webpackChunkName: "swiper" */ '../views/Swiper.vue')
-    },
-    {
-      path: '/hot',
-      name: 'hot',
-      component: () => import(/* webpackChunkName: "hot" */ '../views/IndexConfig.vue')
-    },
-    {
-      path: '/new',
-      name: 'new',
-      component: () => import(/* webpackChunkName: "new" */ '../views/IndexConfig.vue')
-    },
-    {
-      path: '/recommend',
-      name: 'recommend',
-      component: () => import(/* webpackChunkName: "recommend" */ '../views/IndexConfig.vue')
-    },
-    {
-      path: '/category',
-      name: 'category',
-      component: () => import(/* webpackChunkName: "category" */ '../views/Category.vue'),
-      children: [
-        {
-          path: '/category/level2',
-          name: 'level2',
-          component: () => import(/* webpackChunkName: "level2" */ '../views/Category.vue'),
-        },
-        {
-          path: '/category/level3',
-          name: 'level3',
-          component: () => import(/* webpackChunkName: "level3" */ '../views/Category.vue'),
-        }
-      ]
     },
     {
       path: '/good',
