@@ -11,13 +11,12 @@
     "@sentry/browser": "^6.3.1",
     "@sentry/tracing": "^6.3.1",
     "axios": "^0.21.1",
-    "element-plus": "^1.0.2-beta.33",
+    "element-plus": "^1.0.2-beta.70",
     "js-md5": "^0.7.3",
-    "pushstate-server": "^3.1.0",
+    "pushstate-server": "^3.0.1",
     "qs": "^6.9.6",
-    "vue": "^3.0.5",
-    "vue-router": "^4.0.4",
-    "wangeditor": "^4.6.10"
+    "vue": "^3.2.5",
+    "vue-router": "^4.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.13.8",

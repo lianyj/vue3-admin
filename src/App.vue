@@ -55,9 +55,17 @@
       <router-view />
     </el-container>
   </div>
+
+    <el-config-provider :locale="locale">
+      <slot name="app"></slot>
+    </el-config-provider>
+
 </template>
 
 <script>
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 import { onUnmounted, reactive } from 'vue'
 import Header from '@/components/Header.vue'
 import { useRouter } from 'vue-router'
@@ -66,8 +74,10 @@ export default {
   name: 'App',
   components: {
     Header,
+    [ElConfigProvider.name]: ElConfigProvider
   },
   setup() {
+    let locale = zhCn
     const noMenu = ['/login']
     const router = useRouter()
     const state = reactive({
@@ -111,7 +121,8 @@ export default {
     })
 
     return {
-      state
+      state,
+      locale
     }
   }
 }

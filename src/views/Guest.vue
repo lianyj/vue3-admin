@@ -125,7 +125,7 @@
         <el-input placeholder="联系地址" v-model="form.address" style="width: 80%"></el-input>
       </el-form-item>
       <el-form-item :label="`备注`" >
-        <el-input placeholder="联系地址" v-model="form.remark" style="width: 80%"></el-input>
+        <el-input placeholder="备注" v-model="form.remark" style="width: 80%"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
