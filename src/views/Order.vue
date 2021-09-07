@@ -44,6 +44,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
+      border
       tooltip-effect="dark"
       style="width: 100%"
      >
@@ -146,6 +147,16 @@
               <a style="cursor: pointer; margin-right: 10px">关闭订单</a>
             </template>
           </el-popconfirm>
+          <br/>
+          <el-popconfirm
+              title="确定删除订单吗？"
+              @confirm="deleteOrder(scope.row.orderId)"
+          >
+            <template #reference>
+              <a style="cursor: pointer; margin-right: 10px">删除订单</a>
+            </template>
+          </el-popconfirm>
+
         </template>
       </el-table-column>
     </el-table>
@@ -273,6 +284,12 @@ export default {
     getAllUser(){
       axios.get('/user/allList').then(res => {
         this.userList = res
+      })
+    },
+    deleteOrder(orderId){
+      axios.get('/order/delete/'+ orderId).then(() => {
+        ElMessage.success('删除成功')
+        this.getOrderList()
       })
     },
     getOrderList(){

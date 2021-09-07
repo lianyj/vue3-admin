@@ -23,6 +23,7 @@
     <el-table
       v-loading="loading"
       :data="tableData"
+      border
       tooltip-effect="dark"
       style="width: 100%" >
 
