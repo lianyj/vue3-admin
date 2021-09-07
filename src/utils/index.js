@@ -16,8 +16,8 @@ export function localRemove (key) {
 }
 
 
-const serverHost = 'http://127.0.0.1:8080/'
-// const serverHost = 'http://47.97.107.88:8080/'
+// const serverHost = 'http://127.0.0.1:8080/'
+const serverHost = 'http://47.97.107.88:8080/'
 export {
   serverHost
 }

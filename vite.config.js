@@ -4,9 +4,9 @@ import vitePluginImport from 'vite-plugin-babel-import';
 import path from 'path'
 
 const baseUrl = {
-  development: './',
-  beta: './',
-  release: './'
+  development: 'http://127.0.0.1:3000',
+  beta: 'http://47.97.107.88:3344',
+  release: 'http://47.97.107.88:3344'
 }
 
 // https://vitejs.dev/config/
